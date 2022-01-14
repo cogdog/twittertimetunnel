@@ -1,0 +1,48 @@
+.jumbotron  {
+	opacity: 0.8;
+	margin-bottom:1em;
+	min-height: 4em;
+}
+
+#sitename {
+	font-size:4vw;
+}
+
+select {
+	font-size:1.8em;
+    background-color: #5a5;
+    color: #fff;
+    border: none;
+    margin:0 8px;
+}
+
+.dials {
+    width: 80%;
+    margin: 2em auto;
+    background-color: #5a5;
+    padding: 8px 0;
+    border: 2px #777 solid;
+}
+
+.hide {
+	display:none;
+}
+    
+
+
+#footer {
+	position:absolute;
+	bottom:0;
+	left: 0;
+
+	color:#fff;
+	font-size: 0.8em;
+	line-height:1.1;
+}	
+
+#footer a, #main, pre {
+	color:#fff;
+	text-decoration: underline;
+}
+
+

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title>The Twitter Tunnel</title>
+
+
+    <!-- big fan of this favicon 
+          Spiral by Jack Knoebber CC BY from NounProject.com
+          https://thenounproject.com/icon/spiral-40908/ -->
+    <link rel="shortcut icon" type="image/png" href="spiral.png"/>
+
+
+    <!-- Bootstrap and icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    
+	<!-- let the styling commence -->
+	<link href="css/style.css" rel="stylesheet">
+
+</head>
+<body>
+ <div class="container"> 
+	<div class="jumbotron">
+	  <h1 id="sitenane" class="display-4 text-center">Let Twtter Take You Back in Time</h1>
+	  
+	  <div class="text-center">
+	  	  <p>See what your current followers were tweeting about up to any date back to 2007 (inspired by <a href="https://twitter.com/anildash/status/1481293970135212037" target="_blank">tweet from @anildash</a></p>
+	  	<h2>Dial in the date</h2>
+	  
+	
+		  <div class="dials">
+			<form>
+			  <select id="month"></select>
+			  <select id="day"></select>
+			  <select id="year"></select>
+			</form>
+		</div>  
+	</div>
+	
+	<div id="main" class="container-fluid text-center">
+		<button type="button" class="btn btn-success btn-lg" id="tunnel">Open The Tunnel</button>
+	</div><!-- #main -->
+	
+	
+	
+	
+ </div>
+	
+	<div id="footer" class="container-fluid text-center">
+		<p>
+		<!-- background image attribution -->
+		Background image created by Alan Levine as a photoshop modification of <a href="https://www.pinterest.ca/pin/379428337342547394/" target="_blank">image found pinterist</a>, Hobo font text, and  <a href="https://pixabay.com/illustrations/logo-twitter-social-media-3491390/" target="_blank">Twitter logo found on Pixabay</a> <br />
+		</p>
+		
+		<p>
+		<!-- code credit, thanks for keeping -->
+		overly verbose and non optimal code by <a href="http://cog.dog/"> @cogdog</a> and <a href="https://github.com/cogdog/twittertimetunnel">available for mocking on github</a>
+		</p>
+	</div>
+</div>
+<!--  JavaScript libs 
+	   jQuery first, then Bootstrap JS, and finally Backstretch -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.1.18/jquery.backstretch.min.js" integrity="sha512-bXc1hnpHIf7iKIkKlTX4x0A0zwTiD/FjGTy7rxUERPZIkHgznXrN/2qipZuKp/M3MIcVIdjF4siFugoIc2fL0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <!-- custom scripts for the  machine -->
+    <script>
+    // backstrech the background image -->
+   // $.backstretch("background.jpg");
+
+$.backstretch([
+    [
+      // Will be chosen for a 2160 device or a 1080*2 device
+      { url: "background.jpg", alignY: "top" }, 
+    ]
+  ]);
+
+
+	function isLeapYear(year) {
+	// h/t https://dev.to/nas5w/creating-a-javascript-function-to-calculate-whether-it-s-a-leap-year-2cip
+	  if (year % 400 === 0) return true;
+	  if (year % 100 === 0) return false;
+	  return year % 4 === 0;
+	}
+
+	function setMonth() {
+		// h/t https://www.html-code-generator.com/javascript/drop-down/year-month-day
+		
+		let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		var month_selected = (new Date).getMonth(); // current month
+		var option = '';
+
+
+		for (let i = 0; i < months.length; i++) {
+			let month_number = (i + 1);
+
+			// value month number with 0. [01 02 03 04..]
+			let monthnum = (month_number <= 9) ? '0' + month_number : month_number;
+
+
+			// or value month names. [January February]
+			let month = months[i];
+
+			let selected = (i === month_selected ? ' selected' : '');
+			option += '<option value="' + monthnum + '"' + selected + '>' + months[i] + '</option>';
+		}
+		$("#month").html(option);
+	}
+	
+	function setDay(day_selected) {
+		// h/t https://www.html-code-generator.com/javascript/drop-down/year-month-day
+		
+	    let curr_month = $("#month").val(); // current selected month
+	    let thirty_day = ['04' ,'06' ,'09' ,'11']; // months with 30 days
+	    
+	    // adjust the maximum number of days for current month
+	    let maxdays = 31;
+	    
+	    if (thirty_day.includes(curr_month)) {
+	    	maxdays = 30; // 30 day month
+	    } 
+	    
+	    if (curr_month == '02') { // february  
+	    	//  check for leap year
+	    	if ( isLeapYear(parseInt($("#year").val())) ) {
+	    		maxdays = 29;
+	    	} else {
+	    		maxdays = 28; 
+	    	}
+	    }	
+
+    	let option = '';
+   
+		for (let i = 1; i <= maxdays; i++) {
+			// value day number with 0. 01 02 03 04..
+			let day = (i <= 9) ? '0' + i : i;
+
+			let selected = (i === day_selected ? ' selected' : '');
+			option += '<option value="' + day + '"' + selected + '>' + day + '</option>';
+		}
+		
+		$("#day").html(option);
+	}
+	
+	function setYear() {
+		// h/t https://www.html-code-generator.com/javascript/drop-down/year-month-day
+    	let year_start = 2007;
+   		let year_end = (new Date).getFullYear(); // current year
+    	let year_selected = 2008;
+
+    	let option = '';
+
+		for (let i = year_start; i <= year_end; i++) {
+			let selected = (i === year_selected ? ' selected' : '');
+			option += '<option value="' + i + '"' + selected + '>' + i + '</option>';
+		}
+		
+		$("#year").html(option);
+
+	}
+	
+	function construct_date() {
+		return ( $("#year").val() + '-' + $("#month").val() + '-' + $("#day").val() );
+	}
+
+		
+	// set up the generate button
+	$(document).ready(function(){	
+		// initialize the menus
+		setYear();
+		setMonth();
+		setDay((new Date).getDate());
+
+		// open the tunnel 
+		$( "#tunnel" ).click(function() {
+			window.open('https://twitter.com/search?q=filter%3Afollows%20until%3A' + construct_date() + '%20-filter%3Areplies&src=typed_query&f=live', "_blank");
+		});	
+		
+
+		// update days menu if month changes
+		$('#month').change(function() {
+		  setDay(parseInt($("#day").val()));
+		});
+
+		// update days menu if year changes (leap year check)
+		$('#year').change(function() {
+		  setDay(parseInt($("#day").val()));
+		});
+		
+	});	
+    
+    </script>
+
+</body>
+</html>
