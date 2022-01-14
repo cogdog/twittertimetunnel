@@ -2,7 +2,7 @@
 
 ![](docs/background.jpg "Enter the Twitter Time Tunnel")
 
-A playful toy for generating what your twitter followers where chirping about on any arbitrary day in past, inspired [by tweet from @anildash](https://twitter.com/anildash/status/1481293970135212037)
+A playful toy for generating what your current twitter followers where chirping about on any arbitrary day in past, inspired [by tweet from @anildash](https://twitter.com/anildash/status/1481293970135212037). The default setting is the current day in 2008 but you can spin the machine's dials to any other date.
 
 Try it out! http://cogdog.github.io/twittertimetunnel
 
