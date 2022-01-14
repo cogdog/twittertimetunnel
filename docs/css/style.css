@@ -1,11 +1,10 @@
 .jumbotron  {
-	opacity: 0.8;
-	margin-bottom:1em;
-	min-height: 4em;
+  opacity: 0.8;
+  margin-top:2em;
 }
 
-#sitename {
-	font-size:4vw;
+.display-4 {
+	font-weight: 600;
 }
 
 select {
